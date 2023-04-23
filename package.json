@@ -1,0 +1,40 @@
+{
+    "name": "create-blip-extension",
+    "description": "CLI tool for creating extensions for the Blip platform",
+    "main": "index.js",
+    "version": "0.0.1",
+    "type": "module",
+    "scripts": {
+        "build": "tsc",
+        "prepublishOnly": "npm run build",
+        "test": "npm run test",
+        "type-check": "tsc --noEmit"
+    },
+    "devDependencies": {
+        "@types/minimist": "^1.2.2",
+        "@types/node": "^18.15.13",
+        "@types/prompts": "^2.4.4",
+        "degit": "^2.8.4",
+        "kolorist": "^1.8.0",
+        "minimist": "^1.2.8",
+        "prompts": "^2.4.2",
+        "typescript": "^5.0.4"
+    },
+    "author": "Heloi Neto",
+    "bugs": {
+        "url": "https://github.com/heloineto/create-blip-extension/issues"
+    },
+    "engines": {
+        "node": "^14.18.0 || >=16.0.0"
+    },
+    "files": [
+        "index.js",
+        "dist"
+    ],
+    "homepage": "https://github.com/heloineto/create-blip-extension#readme",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/heloineto/create-blip-extension.git"
+    }
+}
