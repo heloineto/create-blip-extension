@@ -9,6 +9,8 @@ import questions from './questions/index.js';
 import clearDir from './utils/clearDir.js';
 import { Template } from './utils/templates.js';
 import logDoneMessage from './utils/logDoneMessage.js';
+import { fileURLToPath } from 'node:url';
+import copyFileSystemNode from './utils/copyFileSystemNode.js';
 
 type Answers = Partial<{
     template: Template;
@@ -16,6 +18,10 @@ type Answers = Partial<{
     packageName: string;
     projectName: string;
 }>;
+
+const renameFiles: Record<string, string | undefined> = {
+    _gitignore: '.gitignore'
+};
 
 const argv = minimist<{
     t?: string;
@@ -56,9 +62,9 @@ async function main() {
         return;
     }
 
-    // const template = answers.template || argTemplate;
+    const template = answers.template?.name || argTemplate;
     const overwrite = answers.overwrite || false;
-    // const packageName = answers.packageName || projectName;
+    const packageName = answers.packageName || projectName;
 
     const root = path.join(cwd, targetDir);
 
@@ -69,6 +75,34 @@ async function main() {
     }
 
     console.log(`\nScaffolding project in ${root}...`);
+
+    const templateDir = path.resolve(
+        fileURLToPath(import.meta.url),
+        '../..',
+        `template-${template}`
+    );
+
+    const write = (file: string, content?: string) => {
+        const targetPath = path.join(root, renameFiles[file] ?? file);
+        if (content) {
+            fs.writeFileSync(targetPath, content);
+        } else {
+            copyFileSystemNode(path.join(templateDir, file), targetPath);
+        }
+    };
+
+    const files = fs.readdirSync(templateDir);
+    for (const file of files.filter((f) => f !== 'package.json')) {
+        write(file);
+    }
+
+    const pkg = JSON.parse(
+        fs.readFileSync(path.join(templateDir, `package.json`), 'utf-8')
+    );
+
+    pkg.name = packageName;
+
+    write('package.json', JSON.stringify(pkg, null, 4) + '\n');
 
     logDoneMessage({ root });
 }
