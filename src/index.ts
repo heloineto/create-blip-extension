@@ -1,14 +1,14 @@
+import fs from 'node:fs';
 import minimist from 'minimist';
 import prompts from 'prompts';
-import formatTargetDir from './formatTargetDir.js';
+import formatTargetDir from './utils/formatTargetDir.js';
 import path from 'node:path';
 import { red } from 'kolorist';
-import { DEFAULT_TARGET_DIR } from './constants.js';
+import { DEFAULT_TARGET_DIR } from './utils/constants.js';
 import questions from './questions/index.js';
-import clearDir from './clearDir.js';
-import fs from 'node:fs';
-import { Template } from './templates.js';
-import logDoneMessage from './logDoneMessage.js';
+import clearDir from './utils/clearDir.js';
+import { Template } from './utils/templates.js';
+import logDoneMessage from './utils/logDoneMessage.js';
 
 type Answers = Partial<{
     template: Template;

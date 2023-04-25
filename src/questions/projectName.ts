@@ -1,6 +1,6 @@
 import { reset } from 'kolorist';
-import formatTargetDir from '../formatTargetDir.js';
-import { DEFAULT_TARGET_DIR } from '../constants.js';
+import formatTargetDir from '../utils/formatTargetDir.js';
+import { DEFAULT_TARGET_DIR } from '../utils/constants.js';
 import prompts from 'prompts';
 
 type Properties = {

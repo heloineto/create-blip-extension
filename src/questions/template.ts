@@ -1,6 +1,6 @@
 import prompts from 'prompts';
 import { reset } from 'kolorist';
-import TEMPLATES from '../templates.js';
+import TEMPLATES from '../utils/templates.js';
 
 const templateNames = TEMPLATES.map(({ name }) => name);
 
