@@ -15,6 +15,7 @@ function logDoneMessage({ root }: { root: string }) {
         );
     }
 
+    console.log('  git init');
     console.log('  npm install');
     console.log('  npm run start\n');
 }

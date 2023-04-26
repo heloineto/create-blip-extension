@@ -6,7 +6,7 @@
     "type": "module",
     "scripts": {
         "build": "tsc",
-        "dev": "node ./index.js",
+        "start": "node ./index.js",
         "fetch-templates": "node scripts/fetch-templates.cjs",
         "prepublishOnly": "npm run build",
         "test": "npm run test",
