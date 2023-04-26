@@ -6,7 +6,7 @@
     "type": "module",
     "scripts": {
         "build": "tsc",
-        "fetch-templates": "npx degit heloineto/blip-extension-template#typescript typescript & npx degit heloineto/blip-extension-template#javascript javascript",
+        "fetch-templates": "node scripts/fetchTemplates.js",
         "prepublishOnly": "npm run build",
         "test": "npm run test",
         "type-check": "tsc --noEmit"
