@@ -104,6 +104,26 @@ async function main() {
 
     write('package.json', JSON.stringify(pkg, null, 4) + '\n');
 
+    // const appSettings = JSON.parse(
+    //     fs.readFileSync(
+    //         path.join(templateDir, '/src/config/appsettings.json'),
+    //         'utf-8'
+    //     )
+    // );
+
+    // appSettings.segment.prefix = packageName.startsWith('blip-')
+    //     ? packageName.replace('blip-', '')
+    //     : packageName;
+
+    // console.log('templatePath', appSettings);
+
+    // write('package.json', JSON.stringify(pkg, null, 4) + '\n');
+
+    // fs.copyFileSync(
+    //     path.join(templatePath, '/src/config/appsettings.json'),
+    //     path.join(templatePath, '/src/config/appsettings.development.json')
+    // );
+
     logDoneMessage({ root });
 }
 
