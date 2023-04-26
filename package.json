@@ -6,7 +6,8 @@
     "type": "module",
     "scripts": {
         "build": "tsc",
-        "fetch-templates": "node scripts/fetchTemplates.js",
+        "dev": "node ./index.js",
+        "fetch-templates": "node scripts/fetch-templates.cjs",
         "prepublishOnly": "npm run build",
         "test": "npm run test",
         "type-check": "tsc --noEmit"

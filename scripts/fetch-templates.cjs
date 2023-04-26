@@ -32,7 +32,7 @@ const fetchTemplate = (branch) => {
     // Overwrite the package.json
     fs.writeFileSync(
         path.join(templatePath, '/package.json'),
-        JSON.stringify({ packageJson }, null, 4)
+        JSON.stringify(packageJson, null, 4)
     );
 };
 
