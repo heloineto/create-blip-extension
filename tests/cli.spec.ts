@@ -23,10 +23,23 @@ const createNonEmptyDir = () => {
     fs.writeFileSync(pkgJson, '{ "foo": "bar" }');
 };
 
-const templateFiles = fs
-    .readdirSync(join(CLI_PATH, 'template-typescript'))
-    .map((filePath) => (filePath === '_gitignore' ? '.gitignore' : filePath))
-    .sort();
+const templates = ['javascript', 'typescript'] as const;
+
+type TemplateFiles = Record<(typeof templates)[number], string[]>;
+
+const templateFiles = templates.reduce((acc, template) => {
+    const files = fs
+        .readdirSync(join(CLI_PATH, `template-${template}`))
+        .map((filePath) =>
+            filePath === '_gitignore' ? '.gitignore' : filePath
+        )
+        .sort();
+
+    return {
+        ...acc,
+        [template]: files
+    };
+}, {}) as TemplateFiles;
 
 beforeAll(() => fs.remove(genPath));
 afterEach(() => fs.remove(genPath));
@@ -72,13 +85,17 @@ test('asks to overwrite non-empty current directory', () => {
 });
 
 test('successfully scaffolds a project based on the starter templates', () => {
-    const { stdout } = run([projectName, '--template', 'typescript'], {
-        cwd: __dirname
-    });
-    const generatedFiles = fs.readdirSync(genPath).sort();
+    for (const template of templates) {
+        const { stdout } = run([projectName, '--template', template], {
+            cwd: __dirname
+        });
+        const generatedFiles = fs.readdirSync(genPath).sort();
 
-    expect(stdout).toContain(`Scaffolding project in ${genPath}`);
-    expect(templateFiles).toEqual(generatedFiles);
+        expect(stdout).toContain(`Scaffolding project in ${genPath}`);
+        expect(templateFiles[template]).toEqual(generatedFiles);
+
+        fs.removeSync(genPath);
+    }
 });
 
 test('works with the -t alias', () => {
@@ -87,7 +104,38 @@ test('works with the -t alias', () => {
     });
     const generatedFiles = fs.readdirSync(genPath).sort();
 
-    // Assertions
     expect(stdout).toContain(`Scaffolding project in ${genPath}`);
-    expect(templateFiles).toEqual(generatedFiles);
+    expect(templateFiles['typescript']).toEqual(generatedFiles);
+});
+
+test('changes the package name and prefix', () => {
+    const { stdout } = run([projectName, '-t', 'typescript'], {
+        cwd: __dirname
+    });
+
+    const readJson = (file: string) => {
+        const filePath = join(genPath, file);
+
+        return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+    };
+
+    const pkgJson = readJson('package.json');
+
+    expect(pkgJson.name).toBe(projectName);
+
+    const appSettingsJson = readJson('src/config/appsettings.json');
+
+    const prefix = projectName.startsWith('blip-')
+        ? projectName.replace('blip-', '')
+        : projectName;
+
+    expect(appSettingsJson.env).toBe('prd');
+    expect(appSettingsJson.segment.prefix).toBe(prefix);
+
+    const appSettingsDevJson = readJson(
+        'src/config/appsettings.development.json'
+    );
+
+    expect(appSettingsDevJson.env).toBe('dev');
+    expect(appSettingsDevJson.segment.prefix).toBe(prefix);
 });

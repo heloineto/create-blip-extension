@@ -8,7 +8,7 @@ export type Template = {
     color: ColorGetter;
 };
 
-const TEMPLATES: Template[] = [
+const templates: Template[] = [
     {
         name: 'typescript',
         display: 'TypeScript',
@@ -21,4 +21,4 @@ const TEMPLATES: Template[] = [
     }
 ];
 
-export default TEMPLATES;
+export default templates;

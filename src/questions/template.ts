@@ -1,8 +1,8 @@
 import prompts from 'prompts';
 import { reset } from 'kolorist';
-import TEMPLATES from '../utils/templates.js';
+import templates from '../utils/templates.js';
 
-const templateNames = TEMPLATES.map(({ name }) => name);
+const templateNames = templates.map(({ name }) => name);
 
 type Properties = {
     argTemplate: string | undefined;
@@ -25,7 +25,7 @@ function template({
                   )
                 : reset('Select a template:'),
         initial: 0,
-        choices: TEMPLATES.map((template) => {
+        choices: templates.map((template) => {
             const templateColor = template.color;
 
             return {
