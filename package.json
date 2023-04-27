@@ -1,42 +1,48 @@
 {
     "name": "create-blip-extension",
     "description": "CLI tool for creating extensions for the Blip platform",
-    "main": "index.js",
-    "version": "0.0.1",
-    "type": "module",
+    "version": "0.0.2",
     "scripts": {
         "build": "tsc",
         "start": "node ./index.js",
         "fetch-templates": "node scripts/fetch-templates.cjs",
-        "prepublishOnly": "npm run build",
         "test": "npm run test",
-        "type-check": "tsc --noEmit"
+        "type-check": "tsc --noEmit",
+        "prepublishOnly": "npm run build"
+    },
+    "dependencies": {
+        "kolorist": "^1.8.0",
+        "minimist": "^1.2.8",
+        "prompts": "^2.4.2"
     },
     "devDependencies": {
         "@types/minimist": "^1.2.2",
         "@types/node": "^18.15.13",
         "@types/prompts": "^2.4.4",
-        "degit": "^2.8.4",
-        "kolorist": "^1.8.0",
-        "minimist": "^1.2.8",
-        "prompts": "^2.4.2",
         "typescript": "^5.0.4"
     },
+    "type": "module",
+    "main": "index.js",
     "author": "Heloi Neto",
-    "bugs": {
-        "url": "https://github.com/heloineto/create-blip-extension/issues"
-    },
-    "engines": {
-        "node": "^14.18.0 || >=16.0.0"
+    "license": "MIT",
+    "bin": {
+        "create-blip-extension": "index.js",
+        "cbe": "index.js"
     },
     "files": [
         "index.js",
+        "template-*",
         "dist"
     ],
+    "engines": {
+        "node": "^14.18.0 || >=16.0.0"
+    },
     "homepage": "https://github.com/heloineto/create-blip-extension#readme",
-    "license": "MIT",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/heloineto/create-blip-extension.git"
+    },
+    "bugs": {
+        "url": "https://github.com/heloineto/create-blip-extension/issues"
     }
 }
