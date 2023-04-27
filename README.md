@@ -2,7 +2,7 @@
 
 ## Scaffolding Your Blip Extension
 
-To start your extension run the command below:
+To start your extension, run the command below:
 
 ```shell
 npm create blip-extension@latest
@@ -10,13 +10,13 @@ npm create blip-extension@latest
 
 Then follow the prompts!
 
-You can also directly specify the project name and the template you want to use via additional command line options. For example, to scaffold extension using Typescript, run:
+You can also directly specify the project name and the template you want to use via additional command line options. For example, to scaffold an extension using Typescript, run:
 
 ```shell
 npm create blip-extension@latest blip-extension --template typescript
 ```
 
-Currently supported template presets include:
+Currently, supported template presets include:
 
 - `javascript`
 - `typescript`
