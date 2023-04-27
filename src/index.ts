@@ -29,13 +29,14 @@ const argv = minimist<{
 }>(process.argv.slice(2), { string: ['_'] });
 const cwd = process.cwd();
 
+const getProjectName = (targetDir: string) =>
+    targetDir === '.' ? path.basename(path.resolve()) : targetDir;
+
 async function main() {
     const argTargetDir = formatTargetDir(argv._[0]);
     const argTemplate = argv.template || argv.t;
 
     let targetDir = argTargetDir || DEFAULT_TARGET_DIR;
-    const projectName =
-        targetDir === '.' ? path.basename(path.resolve()) : targetDir;
 
     const answers: Answers | null = await prompts(
         [
@@ -45,7 +46,7 @@ async function main() {
             }),
             questions.overwrite({ targetDir }),
             questions.overwriteChecker(),
-            questions.packageName({ projectName }),
+            questions.packageName({ projectName: getProjectName(targetDir) }),
             questions.template({ argTemplate })
         ],
         {
@@ -64,7 +65,7 @@ async function main() {
 
     const template = answers.template?.name || argTemplate;
     const overwrite = answers.overwrite || false;
-    const packageName = answers.packageName || projectName;
+    const packageName = answers.packageName || getProjectName(targetDir);
 
     const root = path.join(cwd, targetDir);
 
@@ -104,25 +105,28 @@ async function main() {
 
     write('package.json', JSON.stringify(pkg, null, 4) + '\n');
 
-    // const appSettings = JSON.parse(
-    //     fs.readFileSync(
-    //         path.join(templateDir, '/src/config/appsettings.json'),
-    //         'utf-8'
-    //     )
-    // );
+    const appSettings = JSON.parse(
+        fs.readFileSync(
+            path.join(templateDir, '/src/config/appsettings.json'),
+            'utf-8'
+        )
+    );
 
-    // appSettings.segment.prefix = packageName.startsWith('blip-')
-    //     ? packageName.replace('blip-', '')
-    //     : packageName;
+    appSettings.segment.prefix = packageName.startsWith('blip-')
+        ? packageName.replace('blip-', '')
+        : packageName;
 
-    // console.log('templatePath', appSettings);
+    write(
+        '/src/config/appsettings.json',
+        JSON.stringify(appSettings, null, 4) + '\n'
+    );
 
-    // write('package.json', JSON.stringify(pkg, null, 4) + '\n');
+    appSettings.env = 'dev';
 
-    // fs.copyFileSync(
-    //     path.join(templatePath, '/src/config/appsettings.json'),
-    //     path.join(templatePath, '/src/config/appsettings.development.json')
-    // );
+    write(
+        '/src/config/appsettings.development.json',
+        JSON.stringify(appSettings, null, 4) + '\n'
+    );
 
     logDoneMessage({ root });
 }
