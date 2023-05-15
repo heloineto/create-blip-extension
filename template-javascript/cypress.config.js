@@ -1,7 +1,7 @@
-import coverageTask from '@cypress/code-coverage/task';
-import { defineConfig } from 'cypress';
+require('@cypress/instrument-cra');
+const { defineConfig } = require('cypress');
 
-export default defineConfig({
+module.exports = defineConfig({
     env: {
         codeCoverage: {
             exclude: 'cypress/**/*.*',
@@ -9,14 +9,14 @@ export default defineConfig({
     },
     component: {
         video: false,
-        devServer: {
-            framework: 'react',
-            bundler: 'vite',
-        },
+        screenshotOnRunFailure: false,
         setupNodeEvents: (on, config) => {
-            coverageTask(on, config);
-
+            require('@cypress/code-coverage/task')(on, config);
             return config;
+        },
+        devServer: {
+            framework: 'create-react-app',
+            bundler: 'webpack',
         },
     },
 });
