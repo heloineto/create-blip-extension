@@ -129,8 +129,6 @@ test('changes the package name and prefix', () => {
         ? projectName.replace('blip-', '')
         : projectName;
 
-    console.log('prefix', prefix);
-
     expect(appSettingsJson.env).toBe('prd');
     expect(appSettingsJson.segment.prefix).toBe(prefix);
 
