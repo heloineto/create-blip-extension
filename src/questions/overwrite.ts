@@ -6,7 +6,7 @@ type Properties = {
 };
 
 function overwrite({
-    targetDir
+    targetDir,
 }: Properties): prompts.PromptObject<'overwrite'> {
     return {
         type: () =>
@@ -18,7 +18,7 @@ function overwrite({
             (targetDir === '.'
                 ? 'Current directory'
                 : `Target directory "${targetDir}"`) +
-            ` is not empty. Remove existing files and continue?`
+            ` is not empty. Remove existing files and continue?`,
     };
 }
 

@@ -37,7 +37,7 @@ const templateFiles = templates.reduce((acc, template) => {
 
     return {
         ...acc,
-        [template]: files
+        [template]: files,
     };
 }, {}) as TemplateFiles;
 
@@ -87,7 +87,7 @@ test('asks to overwrite non-empty current directory', () => {
 test('successfully scaffolds a project based on the starter templates', () => {
     for (const template of templates) {
         const { stdout } = run([projectName, '--template', template], {
-            cwd: __dirname
+            cwd: __dirname,
         });
         const generatedFiles = fs.readdirSync(genPath).sort();
 
@@ -100,7 +100,7 @@ test('successfully scaffolds a project based on the starter templates', () => {
 
 test('works with the -t alias', () => {
     const { stdout } = run([projectName, '-t', 'typescript'], {
-        cwd: __dirname
+        cwd: __dirname,
     });
     const generatedFiles = fs.readdirSync(genPath).sort();
 
@@ -110,7 +110,7 @@ test('works with the -t alias', () => {
 
 test('changes the package name and prefix', () => {
     const { stdout } = run([projectName, '-t', 'typescript'], {
-        cwd: __dirname
+        cwd: __dirname,
     });
 
     const readJson = (file: string) => {

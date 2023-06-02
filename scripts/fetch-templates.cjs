@@ -16,13 +16,11 @@ const fetchTemplate = (branch) => {
         path.join(templatePath, '_gitignore')
     );
 
-
     // TODO: change the 'env' property to 'dev'
     fs.copyFileSync(
         path.join(templatePath, '/src/config/appsettings.json'),
         path.join(templatePath, '/src/config/appsettings.development.json')
     );
-
 
     // get the package.json
     const packageJson = require(path.join(templatePath, '/package.json'));

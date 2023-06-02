@@ -18,8 +18,8 @@ npm create blip-extension@latest blip-extension --template typescript
 
 Currently, supported template presets include:
 
-- `javascript`
-- `typescript`
+-   `javascript`
+-   `typescript`
 
 You can use `.` for the project name to scaffold in the current directory.
 

@@ -9,7 +9,7 @@ const questions = {
     overwrite,
     overwriteChecker,
     packageName,
-    template
+    template,
 };
 
 export default questions;

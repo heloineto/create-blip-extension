@@ -12,13 +12,13 @@ const templates: Template[] = [
     {
         name: 'typescript',
         display: 'TypeScript',
-        color: blue
+        color: blue,
     },
     {
         name: 'javascript',
         display: 'JavaScript',
-        color: yellow
-    }
+        color: yellow,
+    },
 ];
 
 export default templates;

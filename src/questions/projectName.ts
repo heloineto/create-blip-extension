@@ -10,7 +10,7 @@ type Properties = {
 
 function projectName({
     argTargetDir,
-    onChange
+    onChange,
 }: Properties): prompts.PromptObject<'projectName'> {
     return {
         type: argTargetDir ? null : 'text',
@@ -22,7 +22,7 @@ function projectName({
                 formatTargetDir(state.value) || DEFAULT_TARGET_DIR;
 
             onChange(targetDir);
-        }
+        },
     };
 }
 

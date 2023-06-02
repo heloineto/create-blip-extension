@@ -9,7 +9,7 @@ type Properties = {
 };
 
 function template({
-    argTemplate
+    argTemplate,
 }: Properties): prompts.PromptObject<'template'> {
     return {
         type:
@@ -30,9 +30,9 @@ function template({
 
             return {
                 title: templateColor(template.display),
-                value: template
+                value: template,
             };
-        })
+        }),
     };
 }
 

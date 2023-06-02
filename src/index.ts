@@ -11,6 +11,8 @@ import { Template } from './utils/templates.js';
 import logDoneMessage from './utils/logDoneMessage.js';
 import { fileURLToPath } from 'node:url';
 import copyFileSystemNode from './utils/copyFileSystemNode.js';
+import writeFile from './utils/writeFile.js';
+import createAppSettings from './utils/createAppSettings.js';
 
 type Answers = Partial<{
     template: Template;
@@ -18,10 +20,6 @@ type Answers = Partial<{
     packageName: string;
     projectName: string;
 }>;
-
-const renameFiles: Record<string, string | undefined> = {
-    _gitignore: '.gitignore'
-};
 
 const argv = minimist<{
     t?: string;
@@ -42,17 +40,17 @@ async function main() {
         [
             questions.projectName({
                 argTargetDir,
-                onChange: (dir) => (targetDir = dir)
+                onChange: (dir) => (targetDir = dir),
             }),
             questions.overwrite({ targetDir }),
             questions.overwriteChecker(),
             questions.packageName({ projectName: getProjectName(targetDir) }),
-            questions.template({ argTemplate })
+            questions.template({ argTemplate }),
         ],
         {
             onCancel: () => {
                 throw new Error(red('✖') + ' Operation cancelled');
-            }
+            },
         }
     ).catch((cancelled: any) => {
         console.log(cancelled.message);
@@ -83,18 +81,9 @@ async function main() {
         `template-${template}`
     );
 
-    const write = (file: string, content?: string) => {
-        const targetPath = path.join(root, renameFiles[file] ?? file);
-        if (content) {
-            fs.writeFileSync(targetPath, content);
-        } else {
-            copyFileSystemNode(path.join(templateDir, file), targetPath);
-        }
-    };
-
     const files = fs.readdirSync(templateDir);
     for (const file of files.filter((f) => f !== 'package.json')) {
-        write(file);
+        writeFile({ file, root, templateDir });
     }
 
     const pkg = JSON.parse(
@@ -103,30 +92,14 @@ async function main() {
 
     pkg.name = packageName;
 
-    write('package.json', JSON.stringify(pkg, null, 4) + '\n');
+    writeFile({
+        file: 'package.json',
+        content: JSON.stringify(pkg, null, 4) + '\n',
+        root,
+        templateDir,
+    });
 
-    const appSettings = JSON.parse(
-        fs.readFileSync(
-            path.join(templateDir, '/src/config/appsettings.json'),
-            'utf-8'
-        )
-    );
-
-    appSettings.segment.prefix = packageName.startsWith('blip-')
-        ? packageName.replace('blip-', '')
-        : packageName;
-
-    write(
-        '/src/config/appsettings.json',
-        JSON.stringify(appSettings, null, 4) + '\n'
-    );
-
-    appSettings.env = 'dev';
-
-    write(
-        '/src/config/appsettings.development.json',
-        JSON.stringify(appSettings, null, 4) + '\n'
-    );
+    createAppSettings({ templateDir, packageName, root });
 
     logDoneMessage({ root });
 }

@@ -6,7 +6,7 @@ type Properties = {
 };
 
 function packageName({
-    projectName
+    projectName,
 }: Properties): prompts.PromptObject<'packageName'> {
     return {
         type: () => (isValidPackageName(projectName) ? null : 'text'),
@@ -14,7 +14,7 @@ function packageName({
         message: reset('Package name:'),
         initial: () => toValidPackageName(projectName),
         validate: (dir) =>
-            isValidPackageName(dir) || 'Invalid package.json name'
+            isValidPackageName(dir) || 'Invalid package.json name',
     };
 }
 

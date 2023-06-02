@@ -11,7 +11,7 @@ function overwriteChecker(): prompts.PromptObject<'overwriteChecker'> {
             }
             return null;
         },
-        name: 'overwriteChecker'
+        name: 'overwriteChecker',
     };
 }
 
