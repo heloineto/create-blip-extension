@@ -9,13 +9,11 @@ function chartsRenamePackageName({ dir, to }: { to: string; dir: string }) {
         .join(path.relative(process.cwd(), dir), '/**/*')
         .replace(/\\/g, '/');
 
-    const results = replace.sync({
+    replace.sync({
         files: filesGlob,
         from: new RegExp(currentName, 'g'),
         to,
     });
-
-    console.log(`Replaced ${results.length} file(s).`, results);
 }
 
 function chartsRenameFolder({ dir, to }: { to: string; dir: string }) {
@@ -37,8 +35,6 @@ interface Properties {
 }
 
 function setupCharts({ packageName, root }: Properties) {
-    console.log('setupCharts');
-
     const chartsDir = path.join(`${root}/charts`);
 
     chartsRenameFolder({
@@ -47,8 +43,6 @@ function setupCharts({ packageName, root }: Properties) {
     });
 
     chartsRenamePackageName({ dir: chartsDir, to: packageName });
-
-    return;
 }
 
 export default setupCharts;
