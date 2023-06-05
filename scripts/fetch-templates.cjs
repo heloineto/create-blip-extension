@@ -16,21 +16,13 @@ const fetchTemplate = (branch) => {
         path.join(templatePath, '_gitignore')
     );
 
-    // TODO: change the 'env' property to 'dev'
-    fs.copyFileSync(
-        path.join(templatePath, '/src/config/appsettings.json'),
-        path.join(templatePath, '/src/config/appsettings.development.json')
-    );
-
-    // get the package.json
-    const packageJson = require(path.join(templatePath, '/package.json'));
-    // Remove the postinstall script from package.json
-    delete packageJson.scripts.postinstall;
+    const appSettings = require(path.join(templatePath, '/src/config/appsettings.json'));
+    appSettings.env = 'dev';
 
     // Overwrite the package.json
     fs.writeFileSync(
-        path.join(templatePath, '/package.json'),
-        JSON.stringify(packageJson, null, 4)
+        path.join(templatePath, '/src/config/appsettings.development.json'),
+        JSON.stringify(appSettings, null, 4)
     );
 };
 
