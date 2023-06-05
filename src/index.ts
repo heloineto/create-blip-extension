@@ -10,9 +10,9 @@ import clearDir from './utils/clearDir.js';
 import { Template } from './utils/templates.js';
 import logDoneMessage from './utils/logDoneMessage.js';
 import { fileURLToPath } from 'node:url';
-import copyFileSystemNode from './utils/copyFileSystemNode.js';
 import writeFile from './utils/writeFile.js';
 import createAppSettings from './utils/createAppSettings.js';
+import setupCharts from './utils/setupCharts.js';
 
 type Answers = Partial<{
     template: Template;
@@ -38,6 +38,8 @@ async function main() {
 
     const answers: Answers | null = await prompts(
         [
+            // TODO: Fix the bug that happens when the user gives a target dir in the prompt
+            // and the directory "blip-extension" already exists. This is a closure problem.
             questions.projectName({
                 argTargetDir,
                 onChange: (dir) => (targetDir = dir),
@@ -100,6 +102,7 @@ async function main() {
     });
 
     createAppSettings({ templateDir, packageName, root });
+    setupCharts({ packageName, root });
 
     logDoneMessage({ root });
 }
