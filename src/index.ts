@@ -13,6 +13,7 @@ import { fileURLToPath } from 'node:url';
 import writeFile from './utils/writeFile.js';
 import createAppSettings from './utils/createAppSettings.js';
 import setupCharts from './utils/setupCharts.js';
+import kebabCase from 'lodash.kebabcase';
 
 type Answers = Partial<{
     template: Template;
@@ -65,7 +66,11 @@ async function main() {
 
     const template = answers.template?.name || argTemplate;
     const overwrite = answers.overwrite || false;
-    const packageName = answers.packageName || getProjectName(targetDir);
+    // Helms charts folder name has to be kebab case. See (https://helm.sh/docs/chart_best_practices/conventions/#chart-names)
+    // Also, this is a pretty common convention in the JS world.
+    const packageName = kebabCase(
+        answers.packageName || getProjectName(targetDir)
+    );
 
     const root = path.join(cwd, targetDir);
 
