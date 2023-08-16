@@ -16,10 +16,12 @@ const fetchTemplate = (branch) => {
         path.join(templatePath, '_gitignore')
     );
 
-    const appSettings = require(path.join(templatePath, '/src/config/appsettings.json'));
+    const appSettings = require(path.join(
+        templatePath,
+        '/src/config/appsettings.json'
+    ));
     appSettings.env = 'dev';
 
-    // Overwrite the package.json
     fs.writeFileSync(
         path.join(templatePath, '/src/config/appsettings.development.json'),
         JSON.stringify(appSettings, null, 4)
