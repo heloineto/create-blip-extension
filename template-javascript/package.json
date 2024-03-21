@@ -20,6 +20,7 @@
     "check": "npm run lint:fix && npm run format && npm run spell && npm run build && npm run test:coverage && npm run test:result"
   },
   "dependencies": {
+
     "@fontsource/nunito-sans": "^5.0.12",
     "blip-ds": "^1.277.1",
     "i18next": "^23.10.1",
