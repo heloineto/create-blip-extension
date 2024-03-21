@@ -1,7 +1,7 @@
 {
     "name": "create-blip-extension",
     "description": "CLI tool for creating extensions for the Blip platform",
-    "version": "0.0.91",
+    "version": "1.0.0",
     "scripts": {
         "build": "tsc",
         "start": "node ./index.js",
